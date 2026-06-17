@@ -1,10 +1,47 @@
+# ==========================================
+# new.bee - Docker Compose Configuration
+# ==========================================
+#
+# USAGE:
+#   Start:          docker compose up -d
+#   Stop:           docker compose down
+#   View logs:      docker compose logs -f
+#   Rebuild:        docker compose up -d --build
+#   Check status:   docker compose ps
+#
+# CONFIGURATION:
+#   Option 1: Set environment variables before running
+#     export ADMIN_PASSWORD=my_secret_password
+#     export PORT=3000
+#     docker compose up -d
+#
+#   Option 2: Create a .env file in the same directory
+#     echo "ADMIN_PASSWORD=my_secret_password" > .env
+#     echo "PORT=3000" >> .env
+#     docker compose up -d
+#
+# DATA PERSISTENCE:
+#   Chat history and uploaded images are stored in Docker volumes.
+#   They survive container restarts, rebuilds, and updates.
+#
+#   To backup volumes:
+#     docker run --rm -v newbee-uploads:/data -v $(pwd):/backup alpine tar czf /backup/uploads-backup.tar.gz /data
+#     docker run --rm -v newbee-history:/data -v $(pwd):/backup alpine tar czf /backup/history-backup.tar.gz /data
+#
+#   To find volume data on disk:
+#     docker volume inspect newbee-uploads
+#     docker volume inspect newbee-history
+#
+# ==========================================
+
 services:
   newbee:
     build: .
+    image: newbee-chat:latest
     container_name: newbee-chat
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "${PORT:-3000}:3000"
     environment:
       - PORT=3000
       - ADMIN_PASSWORD=${ADMIN_PASSWORD:-newbee_admin_2024}
@@ -15,8 +52,22 @@ services:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/"]
       interval: 30s
       timeout: 5s
+      start_period: 10s
       retries: 3
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+        reservations:
+          memory: 64M
 
 volumes:
   newbee-history:
+    name: newbee-history
   newbee-uploads:
+    name: newbee-uploads
