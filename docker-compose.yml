@@ -1,0 +1,22 @@
+services:
+  newbee:
+    build: .
+    container_name: newbee-chat
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-newbee_admin_2024}
+    volumes:
+      - newbee-history:/app/data/history
+      - newbee-uploads:/app/data/uploads
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  newbee-history:
+  newbee-uploads:
