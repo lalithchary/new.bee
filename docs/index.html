@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>new.bee — Minimal Anonymous Chat</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #12121a;
+      --bg-tertiary: #1a1a2e;
+      --bg-card: #16162a;
+      --text-primary: #e8e8f0;
+      --text-secondary: #a0a0b8;
+      --text-muted: #6e6e8a;
+      --accent: #f5a623;
+      --accent-hover: #f7b84e;
+      --accent-dim: rgba(245, 166, 35, 0.1);
+      --border: #2a2a40;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-sans: 'Inter', -apple-system, sans-serif;
+      --transition: all 0.2s ease;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      background: radial-gradient(ellipse at top, #1a1a3e 0%, var(--bg-primary) 70%);
+    }
+
+    .container {
+      max-width: 700px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .ascii-logo {
+      font-family: var(--font-mono);
+      font-size: 0.45rem;
+      line-height: 1.2;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+      overflow-x: auto;
+      white-space: pre;
+      text-shadow: 0 0 20px rgba(245, 166, 35, 0.3);
+    }
+
+    .tagline {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+    }
+
+    .info p {
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+
+    .info code {
+      background: var(--bg-tertiary);
+      padding: 0.15em 0.5em;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      color: var(--accent);
+      font-size: 0.85em;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      transition: var(--transition);
+    }
+
+    .feature:hover {
+      border-color: var(--accent);
+      background: var(--accent-dim);
+    }
+
+    .server-section {
+      margin-top: 2.5rem;
+      padding: 2rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+    }
+
+    .server-section h3 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .server-url {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: var(--accent);
+      color: var(--bg-primary);
+      text-decoration: none;
+      border-radius: var(--radius-xl);
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      font-weight: 600;
+      transition: var(--transition);
+      margin-bottom: 1rem;
+    }
+
+    .server-url:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(245, 166, 35, 0.4);
+    }
+
+    .server-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.75rem;
+    }
+
+    .channels-section {
+      margin-top: 2rem;
+    }
+
+    .channels-section h3 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .channel-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .channel-links a {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: var(--bg-tertiary);
+      color: var(--accent);
+      text-decoration: none;
+      border-radius: var(--radius-xl);
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      border: 1px solid var(--border);
+      transition: var(--transition);
+    }
+
+    .channel-links a:hover {
+      background: var(--accent);
+      color: var(--bg-primary);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(245, 166, 35, 0.3);
+    }
+
+    .github-link {
+      margin-top: 2.5rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .github-link a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      transition: var(--transition);
+    }
+
+    .github-link a:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4ade80;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    @media (max-width: 768px) {
+      .ascii-logo { font-size: 0.3rem; }
+      .features { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .ascii-logo { font-size: 0.25rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo-section">
+      <pre class="ascii-logo">
+ ███╗   ██╗███████╗██╗    ██╗   ██████╗ ███████╗███████╗
+ ████╗  ██║██╔════╝██║    ██║   ██╔══██╗██╔════╝██╔════╝
+ ██╔██╗ ██║█████╗  ██║ █╗ ██║   ██████╔╝█████╗  █████╗  
+ ██║╚██╗██║██╔══╝  ██║███╗██║   ██╔══██╗██╔══╝  ██╔══╝  
+ ██║ ╚████║███████╗╚███╔███╔╝██╗██████╔╝███████╗███████╗
+ ╚═╝  ╚═══╝╚══════╝ ╚══╝╚══╝ ╚═╝╚═════╝ ╚══════╝╚══════╝
+      </pre>
+      <p class="tagline">minimal • anonymous • ephemeral</p>
+    </div>
+
+    <div class="info">
+      <p>Welcome to <strong>new.bee</strong>, a minimal, modern chat application with image sharing.</p>
+      <p>No accounts. No logs. No tracking. Just chat.</p>
+      <p>Channels are created via URL — use a secret name for private conversations.</p>
+    </div>
+
+    <div class="features">
+      <div class="feature">
+        <span>🖼️</span>
+        <span>Image sharing</span>
+      </div>
+      <div class="feature">
+        <span>💬</span>
+        <span>Code syntax highlighting</span>
+      </div>
+      <div class="feature">
+        <span>🔒</span>
+        <span>No accounts required</span>
+      </div>
+      <div class="feature">
+        <span>🐝</span>
+        <span>Admin with persistence</span>
+      </div>
+    </div>
+
+    <div class="server-section">
+      <h3>Enter the hive</h3>
+      <!-- 
+        ⚠️ UPDATE THIS URL to your actual server address
+        e.g., https://chat.yourdomain.com or http://your-pi-ip:3000
+      -->
+      <a href="http://YOUR_SERVER_ADDRESS:3000/?lounge" class="server-url" id="server-link">
+        🐝 Launch new.bee
+      </a>
+      <p class="server-note">Connect to the chat server to start messaging</p>
+      <div class="status-badge">
+        <span class="status-dot"></span>
+        <span>Self-hosted on personal hardware</span>
+      </div>
+    </div>
+
+    <div class="channels-section">
+      <h3>Quick join channels</h3>
+      <div class="channel-links">
+        <a href="http://YOUR_SERVER_ADDRESS:3000/?lounge">?lounge</a>
+        <a href="http://YOUR_SERVER_ADDRESS:3000/?programming">?programming</a>
+        <a href="http://YOUR_SERVER_ADDRESS:3000/?tech">?tech</a>
+        <a href="http://YOUR_SERVER_ADDRESS:3000/?random">?random</a>
+        <a href="http://YOUR_SERVER_ADDRESS:3000/?banana">?banana</a>
+      </div>
+    </div>
+
+    <p class="github-link">
+      Open source — <a href="https://github.com/lalithchary/new.bee">github.com/lalithchary/new.bee</a>
+    </p>
+  </div>
+</body>
+</html>
