@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>new.bee</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Landing Page -->
+  <div id="landing" class="page active">
+    <div class="landing-container">
+      <div class="logo-section">
+        <pre class="ascii-logo">
+ ███╗   ██╗███████╗██╗    ██╗   ██████╗ ███████╗███████╗
+ ████╗  ██║██╔════╝██║    ██║   ██╔══██╗██╔════╝██╔════╝
+ ██╔██╗ ██║█████╗  ██║ █╗ ██║   ██████╔╝█████╗  █████╗  
+ ██║╚██╗██║██╔══╝  ██║███╗██║   ██╔══██╗██╔══╝  ██╔══╝  
+ ██║ ╚████║███████╗╚███╔███╔╝██╗██████╔╝███████╗███████╗
+ ╚═╝  ╚═══╝╚══════╝ ╚══╝╚══╝ ╚═╝╚═════╝ ╚══════╝╚══════╝
+        </pre>
+        <p class="tagline">minimal • anonymous • ephemeral</p>
+      </div>
+
+      <div class="info-section">
+        <p>Welcome to <strong>new.bee</strong>, a minimal, modern chat application.</p>
+        <p>Channels are created and joined via the URL. Change the text after <code>?</code> to create your own channel.</p>
+        <p>No channel lists exist — a secret channel name works as a private room.</p>
+
+        <div class="features">
+          <div class="feature">
+            <span class="feature-icon">🖼️</span>
+            <span>Image sharing supported</span>
+          </div>
+          <div class="feature">
+            <span class="feature-icon">💬</span>
+            <span>Code syntax highlighting</span>
+          </div>
+          <div class="feature">
+            <span class="feature-icon">🔒</span>
+            <span>No accounts required</span>
+          </div>
+          <div class="feature">
+            <span class="feature-icon">🐝</span>
+            <span>Admin persistence via password</span>
+          </div>
+        </div>
+
+        <div class="create-channel-section">
+          <h3>Create or join a channel</h3>
+          <form id="create-channel-form" class="create-channel-form">
+            <div class="create-channel-input-wrapper">
+              <span class="prefix">?</span>
+              <input type="text" id="channel-name-input" placeholder="enter channel name..." maxlength="30" autocomplete="off" required>
+            </div>
+            <button type="submit" class="btn-create">Start Chatting →</button>
+          </form>
+        </div>
+
+        <div class="channels-section">
+          <h3>Or join a popular channel</h3>
+          <div class="channel-links">
+            <a href="?lounge">?lounge</a>
+            <a href="?programming">?programming</a>
+            <a href="?tech">?tech</a>
+            <a href="?random">?random</a>
+            <a href="?music">?music</a>
+            <a href="?banana">?banana</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chat Page -->
+  <div id="chat-page" class="page">
+    <!-- Join Modal -->
+    <div id="join-modal" class="modal active">
+      <div class="modal-content">
+        <h2>Join <span id="channel-display"></span></h2>
+        <form id="join-form">
+          <div class="input-group">
+            <label for="nickname">Nickname</label>
+            <input type="text" id="nickname" placeholder="Enter your nickname..." maxlength="24" autocomplete="off" required>
+          </div>
+          <div class="input-group">
+            <label for="admin-password">Admin Password <span class="optional">(optional)</span></label>
+            <input type="password" id="admin-password" placeholder="Leave empty for regular user...">
+          </div>
+          <button type="submit" class="btn-join">Enter Channel 🐝</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Chat Interface -->
+    <div id="chat-interface" class="hidden">
+      <header class="chat-header">
+        <div class="header-left">
+          <span class="brand">new.bee</span>
+          <span class="channel-name" id="header-channel"></span>
+        </div>
+        <div class="header-right">
+          <span class="user-count" id="user-count">0 online</span>
+          <button id="btn-users" class="btn-icon" title="Toggle user list">👥</button>
+          <button id="btn-clear-history" class="btn-icon admin-only hidden" title="Clear history">🗑️</button>
+        </div>
+      </header>
+
+      <div class="chat-body">
+        <aside id="sidebar" class="sidebar hidden">
+          <h3>Online Users</h3>
+          <ul id="user-list"></ul>
+        </aside>
+
+        <main class="messages-area">
+          <div id="messages" class="messages"></div>
+          <div id="typing-indicator" class="typing-indicator hidden"></div>
+        </main>
+      </div>
+
+      <footer class="chat-footer">
+        <div id="image-preview" class="image-preview hidden">
+          <img id="preview-img" src="" alt="Preview">
+          <button id="btn-remove-image" class="btn-remove-image">✕</button>
+        </div>
+        <form id="chat-form" class="chat-input-area">
+          <label for="image-input" class="btn-icon btn-upload" title="Share image">📎</label>
+          <input type="file" id="image-input" accept="image/*" hidden>
+          <textarea id="message-input" placeholder="Type a message..." rows="1"></textarea>
+          <button type="submit" class="btn-send" title="Send">➤</button>
+        </form>
+      </footer>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
