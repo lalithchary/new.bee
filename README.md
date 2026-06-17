@@ -1,28 +1,68 @@
 # 🐝 new.bee
 
-A minimal, modern, anonymous chat application.
+A minimal, distraction-free, anonymous chat application.
+
+## What is new.bee?
+
+new.bee is a lightweight chat service where you can talk to anyone without creating an account. No sign-ups, no email, no tracking. Just pick a nickname and start chatting.
+
+## How to Use
+
+1. Visit the app
+2. Change the text after `?` in the URL to create or join a channel
+3. Pick a nickname
+4. Chat
+
+That's it.
+
+## Channels
+
+Channels are created by URL. Go to `?anything` and you're in a room. There are no channel lists — a secret channel name is a private room.
+
+Some channels to get started:
+
+- `?lounge` — general chat
+- `?programming` — code talk
+- `?tech` — technology
+- `?random` — whatever
+- `?banana` — 🍌
 
 ## Features
 
-- **Anonymous chat** — no accounts, join with just a nickname
-- **URL-based channels** — `?channelname` creates/joins a room
-- **Image sharing** — upload and share images directly in chat (5MB limit) (do not store)
-- **No history** — messages are stored on server
-- **Modern dark UI** — sleek, responsive design
+- **Anonymous** — no accounts, no registration
+- **Ephemeral** — no message history is retained on the server
+- **Image sharing** — share images directly in chat (not stored permanently)
+- **Code highlighting** — paste code with syntax highlighting
+- **Formatting** — supports `**bold**`, `*italic*`, `` `inline code` ``, and code blocks
 - **Typing indicators** — see when someone is typing
-- **Lightbox** — click images to view full-size
+- **Modern dark UI** — easy on the eyes
 
-## Quick Start
+## Privacy
 
-Then open `http://` in your browser.
+- No accounts or personal data collected
+- No message history stored on the server
+- No tracking, no analytics
+- Images are temporary and not permanently stored
+- When you leave, it's gone
 
-## Tech Stack
+## Self-Hosting
 
-- **Backend:** Node.js + Express + WebSocket (ws)
-- **Frontend:** Vanilla HTML/CSS/JS
-- **Image upload:** Multer
-- **Code highlighting:** highlight.js
-- **Fonts:** JetBrains Mono + Inter
+```bash
+git clone https://github.com/lalithchary/new.bee.git
+cd new.bee
+npm install
+npm start
+```
+
+Or with Docker:
+
+```bash
+git clone https://github.com/lalithchary/new.bee.git
+cd new.bee
+docker compose up -d
+```
+
+The app runs on port `3000` by default.
 
 ## License
 
